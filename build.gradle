@@ -1,0 +1,72 @@
+plugins {
+    id 'fr.il_totore.manadrop' version '0.4.1-SNAPSHOT'
+    id 'com.github.johnrengelman.shadow' version '5.1.0'
+}
+
+import static fr.il_totore.manadrop.MinecraftRepositoryHelper.*
+import fr.il_totore.manadrop.MinecraftDependencyHelper
+import fr.il_totore.task.spigot.SpigotClearPluginsTask
+
+allprojects {
+    apply plugin: 'java-library'
+    apply plugin: 'fr.il_totore.manadrop'
+
+    group 'io.github.iltotore'
+    version '1.0'
+
+    sourceCompatibility = targetCompatibility = 1.8
+
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        spigotSnapshot()
+        sonatype()
+    }
+}
+
+dependencies {
+    compileOnly MinecraftDependencyHelper.spigotApi('1.16.1')
+    implementation project(':api')
+    implementation nms('1_13_R1')
+    implementation nms('1_13_R2')
+    implementation nms('1_14_R1')
+    implementation nms('1_15_R1')
+    implementation nms('1_16_R1')
+}
+
+def nms(String version) {
+    return project(':nms:' + version)
+}
+
+buildTools {
+    workDir = file("$buildDir/libs")
+    versions '1.13', '1.13.2', '1.14.4', '1.15', '1.16.1'
+}
+
+task clearPlugins(type: SpigotClearPluginsTask) {
+    pluginDir = file('../SpigotTest/plugins/')
+    whitelist = ['Debugger.jar', 'PlugMan.jar', 'ViaVersion.jar', 'WorldEdit.jar', 'ParticleAPI.jar']
+}
+
+task copyPlugin(type: Copy) {
+    from file("$buildDir/libs/$archivesBaseName-${version}.jar")
+    println("$buildDir/libs/$archivesBaseName-$version-${shadowJar.archiveClassifier}.jar")
+    into file('../SpigotTest/plugins/')
+    dependsOn clearPlugins
+    dependsOn shadowJar
+}
+
+shadowJar {
+    project.configurations.implementation.canBeResolved = true
+    configurations = [project.configurations.implementation]
+    archiveClassifier = ''
+}
+
+spigot {
+    desc {
+        main 'io.github.iltotore.customentity.Plugin'
+        load 'startup'
+    }
+}
+
+processResources.finalizedBy(spigotPlugin)

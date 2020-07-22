@@ -1,0 +1,6 @@
+import static fr.il_totore.manadrop.MinecraftDependencyHelper.*
+
+dependencies {
+    compileOnly spigot('1.15')
+    implementation project(':api')
+}

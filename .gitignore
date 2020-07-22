@@ -1,0 +1,19 @@
+# Project exclude paths
+/.gradle/
+/api/build/
+/api/build/classes/java/main/
+/build/
+/build/classes/java/main/
+/buildSrc/.gradle/
+/buildSrc/build/
+/buildSrc/build/classes/java/main/
+/nms/1_13_R1/build/
+/nms/1_13_R1/build/classes/java/main/
+/nms/1_13_R2/build/
+/nms/1_13_R2/build/classes/java/main/
+/nms/1_14_R1/build/
+/nms/1_14_R1/build/classes/java/main/
+/nms/1_15_R1/build/
+/nms/1_15_R1/build/classes/java/main/
+/nms/1_16_R1/build/
+/nms/1_16_R1/build/classes/java/main/
