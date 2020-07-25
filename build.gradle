@@ -1,11 +1,20 @@
 plugins {
     id 'fr.il_totore.manadrop' version '0.4.1-SNAPSHOT'
     id 'com.github.johnrengelman.shadow' version '5.1.0'
+    id 'maven-publish'
+    id 'signing'
 }
 
 import static fr.il_totore.manadrop.MinecraftRepositoryHelper.*
 import fr.il_totore.manadrop.MinecraftDependencyHelper
 import fr.il_totore.task.spigot.SpigotClearPluginsTask
+
+Properties localProperties = new Properties()
+localProperties.load(rootProject.file('local.properties').newDataInputStream())
+
+for(Map.Entry<String, ?> entry : localProperties.entrySet()) {
+    project.ext[entry.getKey()] = entry.getValue()
+}
 
 allprojects {
     apply plugin: 'java-library'
@@ -38,6 +47,12 @@ def nms(String version) {
     return project(':nms:' + version)
 }
 
+def included = [':api', ':']
+
+javadoc {
+    source included.collect { project(it).sourceSets.main.allJava }
+}
+
 buildTools {
     workDir = file("$buildDir/libs")
     versions '1.13', '1.13.2', '1.14.4', '1.15', '1.16.1'
@@ -65,8 +80,80 @@ shadowJar {
 spigot {
     desc {
         main 'io.github.iltotore.customentity.Plugin'
+        apiVersion '1.16.1'
         load 'startup'
     }
 }
 
 processResources.finalizedBy(spigotPlugin)
+
+java {
+    withSourcesJar()
+    withJavadocJar()
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            artifactId = 'customentityapi'
+
+            repositories {
+                maven {
+                    url = 'https://oss.sonatype.org/service/local/staging/deploy/maven2/'
+                    credentials {
+                        username = "Il_totore"
+                        password = System.getenv("SONATYPE_PASSWORD")
+                    }
+                }
+            }
+
+            pom {
+                name = 'CustomEntityAPI'
+                description = 'Create and inject custom entities in Spigot'
+                url = 'https://github.com/Iltotore/CustomEntityAPI'
+
+                licenses {
+                    license {
+                        name = 'The Apache License, Version 2.0'
+                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        id = 'iltotore'
+                        name = 'Il_totore'
+                        email = 'rafbodaha@gmail.com'
+                    }
+                }
+                scm {
+                    connection = 'scm:git:git://github.com/Iltotore/CustomEntityAPI.git'
+                    developerConnection = 'scm:git:ssh://github.com/Iltotore/CustomEntityAPI.git'
+                    url = 'https://github.com/Iltotore/CustomEntityAPI.git'
+                }
+
+                withXml {
+                    asNode().dependencies.dependency.each { dep ->
+                        configurations.implementation.forEach {
+                            if(it.name.startsWith(dep.artifactId.last().value().last())) {
+                                dep.parent().remove(dep)
+                                return
+                            }
+                        }
+                    }
+                }
+            }
+
+            from components.java
+        }
+    }
+}
+
+
+tasks.withType(GenerateModuleMetadata) {
+    enabled = false
+}
+
+signing {
+    useGpgCmd()
+    sign publishing.publications.mavenJava
+}
