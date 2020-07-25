@@ -7,7 +7,11 @@ import org.bukkit.entity.Entity;
 import java.util.Collection;
 import java.util.Collections;
 
-public interface NullableEntityType<T extends Entity> extends CustomEntityType<T>{
+/**
+ * A CustomEntityType version where methods are not mandatory.
+ * @param <T> the Bukkit entity equivalent. Used to spawn the mob trough the API.
+ */
+public interface DefaultEntityType<T extends Entity> extends CustomEntityType<T>{
 
     @Override
     default int getBaseID(ServerVersion version){

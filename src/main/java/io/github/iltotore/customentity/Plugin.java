@@ -8,6 +8,7 @@ public class Plugin extends JavaPlugin {
     @Override
     public void onLoad() {
         getLogger().info("Registering entities...");
-        CustomEntityAPI.getAPI().getRegistry().register(new CustomZombieRoot());
+        CustomEntityAPI.getAPI().getRegistry().register(new CustomZombieRoot()); //This is the example entity: a zombie saying <version> forever when attacking.
+        //Spawn it using `/summon minecraft:custom_zombie`
     }
 }

@@ -16,6 +16,11 @@ public class ReflectUtil {
         }
     }
 
+    /**
+     * Change the field modifier
+     * @param field the Field to edit.
+     * @param modifiers the new modifier.
+     */
     public static void setFieldModifier(Field field, int modifiers){
         try {
             MODIFIER_FIELD.setInt(field, modifiers);
@@ -24,6 +29,11 @@ public class ReflectUtil {
         }
     }
 
+    /**
+     * Set the given Field's final property.
+     * @param field the Field to edit.
+     * @param isFinal true to make the Field final. False otherwise.
+     */
     public static void setFinal(Field field, boolean isFinal){
         setFieldModifier(field, field.getModifiers() & (isFinal ? Modifier.FINAL : ~Modifier.FINAL));
     }

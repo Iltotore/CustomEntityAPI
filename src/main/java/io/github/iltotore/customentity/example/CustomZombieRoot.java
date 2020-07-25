@@ -1,9 +1,8 @@
 package io.github.iltotore.customentity.example;
 
-import com.google.common.collect.Sets;
 import io.github.iltotore.customentity.BiomeSpawn;
-import io.github.iltotore.customentity.type.CompositeEntityRoot;
 import io.github.iltotore.customentity.CreatureType;
+import io.github.iltotore.customentity.type.CompositeEntityRoot;
 import io.github.iltotore.customentity.util.ServerVersion;
 import org.bukkit.block.Biome;
 import org.bukkit.entity.Zombie;

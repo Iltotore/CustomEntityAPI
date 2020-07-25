@@ -9,6 +9,14 @@ public class BiomeSpawn {
     private final Biome[] biomes;
     private final int weight, min, max;
 
+    /**
+     * Create a BiomeSpawn using the given spawn infos.
+     * @see #builder()
+     * @param biomes the biomes where spawning is possible.
+     * @param weight the weight used in the randomized spawn. A better weight will increase the spawn chances over other mobs.
+     * @param min the minimal number of mobs created by a single spawn.
+     * @param max the maximal number of mobs created by a single spawn.
+     */
     public BiomeSpawn(Biome[] biomes, int weight, int min, int max) {
         this.biomes = biomes;
         this.weight = weight;
