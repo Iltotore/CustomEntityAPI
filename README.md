@@ -13,6 +13,8 @@ CustomEntityAPI includes:
 - Custom entity behavior
 - Custom natural spawn selection
 
+See the [wiki](https://github.com/Iltotore/CustomEntityAPI/wiki) for more information.
+
 # Installation
 ## Developers
 You can import the library using the [release jar](https://github.com/CustomEntityAPI/releases) or a build tool like Gradle:
@@ -28,5 +30,3 @@ dependencies {
 
 ## Server
 You need to add the [release jar](https://github.com/CustomEntityAPI/releases) to your plugins.
-
-A better documentation will be provided soon.
