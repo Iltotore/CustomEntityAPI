@@ -12,7 +12,7 @@ import fr.il_totore.task.spigot.SpigotClearPluginsTask
 Properties localProperties = new Properties()
 localProperties.load(rootProject.file('local.properties').newDataInputStream())
 
-for(Map.Entry<String, ?> entry : localProperties.entrySet()) {
+for (Map.Entry<String, ?> entry : localProperties.entrySet()) {
     project.ext[entry.getKey()] = entry.getValue()
 }
 
@@ -21,7 +21,7 @@ allprojects {
     apply plugin: 'fr.il_totore.manadrop'
 
     group 'io.github.iltotore'
-    version '1.0'
+    version '1.0.1'
 
     sourceCompatibility = targetCompatibility = 1.8
 
@@ -51,6 +51,10 @@ def included = [':api', ':']
 
 javadoc {
     source included.collect { project(it).sourceSets.main.allJava }
+}
+
+jar {
+    from included.collect { project(it).sourceSets.main.allJava }
 }
 
 buildTools {
@@ -134,7 +138,7 @@ publishing {
                 withXml {
                     asNode().dependencies.dependency.each { dep ->
                         configurations.implementation.forEach {
-                            if(it.name.startsWith(dep.artifactId.last().value().last())) {
+                            if (it.name.startsWith(dep.artifactId.last().value().last())) {
                                 dep.parent().remove(dep)
                                 return
                             }
