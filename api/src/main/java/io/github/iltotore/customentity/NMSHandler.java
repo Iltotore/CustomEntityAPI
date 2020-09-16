@@ -10,4 +10,6 @@ public interface NMSHandler {
      * @return the CustomRegistry of the used NMS version.
      */
     CustomRegistry getRegistry();
+
+    SpawnManager getSpawnManager();
 }

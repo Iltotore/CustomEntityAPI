@@ -1,6 +1,7 @@
 package io.github.iltotore.customentity.v1_13_R2;
 
 import io.github.iltotore.customentity.CustomRegistry;
+import io.github.iltotore.customentity.SpawnManager;
 
 public class NMSHandler implements io.github.iltotore.customentity.NMSHandler {
 
@@ -9,5 +10,10 @@ public class NMSHandler implements io.github.iltotore.customentity.NMSHandler {
     @Override
     public CustomRegistry getRegistry() {
         return registry;
+    }
+
+    @Override
+    public SpawnManager getSpawnManager() {
+        return null;
     }
 }
