@@ -8,7 +8,7 @@ worrying about the server version.
 # Features
 CustomEntityAPI includes:
 - Custom entity creation
-- NMS Support from 1.13 to 1.16.1
+- NMS Support from 1.13 to 1.16.2
 - Custom entity persistence during restart
 - Custom entity behavior
 - Custom natural spawn selection
